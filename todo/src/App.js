@@ -1,24 +1,43 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from "react";
 
 function App() {
+  const [toDo, setToDo] = useState("");
+  const [toDos, setToDos] = useState([]);
+
+  const onChange = (event) => {
+    setToDo(event.target.value);
+  };
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (toDo.trim() !== "") {
+      setToDos((currentArray) => [...currentArray, toDo]);
+      setToDo("");
+    }
+  };
+  const onRemove = (index) => {
+    setToDos((currentArray) => currentArray.filter((_, i) => i !== index));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Todo List</h1>
+      <form onSubmit={onSubmit}>
+        <input id="todo" type="text" value={toDo} onChange={onChange} />
+        <button id="addBtn" type="submit">
+          +
+        </button>
+      </form>
+      <ul id="todoBox">
+        {toDos.map((item, index) => (
+          <li key={index}>
+            {item}
+            <button onClick={() => onRemove(index)}>remove</button>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 
