@@ -8,7 +8,7 @@ function sub(a, b) {
   return a - b;
 }
 
-export function doubleN(a, b) {
+export default function DoubleN(a, b) {
   return a * b;
 }
 
